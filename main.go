@@ -1,6 +1,7 @@
 package main
 
 import (
+    "os"
     "github.com/gin-gonic/gin"
 )
 
@@ -16,19 +17,11 @@ func main() {
         c.File("./static/index.html")
     })
 
-    // Railway assigns dynamic port
-    port := "8080"
-    if p := getenv("PORT"); p != "" {
-        port = p
+    // Get Railway port
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
     }
 
     r.Run(":" + port)
-}
-
-// Simple getenv helper
-func getenv(key string) string {
-    if v := System.Getenv(key); v != "" {
-        return v
-    }
-    return ""
 }
